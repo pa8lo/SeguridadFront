@@ -3,7 +3,7 @@ import {Button,FormGroup,FormControl,HelpBlock,ControlLabel} from 'react-bootstr
 import axios from 'axios';
 //this.props.history.push('/SignUpOk');   
 
-class LoginForm extends React.Component {
+class SingUpWithRol extends React.Component {
     constructor(props, context) {
       super(props, context);
   
@@ -15,7 +15,15 @@ class LoginForm extends React.Component {
         Password:''
       };
     }
-  
+    componentDidMount() {
+        axios.get(`http://localhost:1337/User/users`)
+          .then(res => {
+            const persons = res.data;
+            alert(JSON.stringify(res.data))
+            this.setState({ persons });
+          })
+      }
+    
     getValidationState() {
       const length = this.state.Dni.length;
       if (length == 0) return 'warning';
