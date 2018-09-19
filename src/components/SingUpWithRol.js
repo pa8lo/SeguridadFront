@@ -1,4 +1,4 @@
-import React from 'react';
+/*mport React from 'react';
 import {Button,FormGroup,FormControl,HelpBlock,ControlLabel} from 'react-bootstrap';
 import axios from 'axios';
 //this.props.history.push('/SignUpOk');   
@@ -93,4 +93,4 @@ class SingUpWithRol extends React.Component {
     )
   }
 }
-export default LoginForm;
+export default LoginForm;*/
