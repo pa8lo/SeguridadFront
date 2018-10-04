@@ -49,21 +49,21 @@ export default class SingUpWithRol extends React.Component {
                     this.state.Email !== '' && this.state.LastName !== ''&&
                      this.state.Name !== ''){
                        var data = {
-                        User:{
+                         User:{
                           Dni: this.state.Dni,
                           Email: this.state.Email,
                           rol: this.state.rol,
+                          Password:this.state.Dni,
                           LastName: this.state.LastName,
                           Name: this.state.Name,
-                         },
+                          Number: this.state.Number,
+                        },
                         Adress:{
                           Department: this.state.Department,
                           Adress: this.state.Adress,
                           Floor: this.state.Floor,
+                          
                         },
-                        Number:{
-                          Number: this.state.Number
-                        }
                         
                        }
                    try {
