@@ -52,7 +52,7 @@ export default class SingUpWithRol extends React.Component {
                          User:{
                           Dni: this.state.Dni,
                           Email: this.state.Email,
-                          rol: this.state.rol,
+                          Rols: this.state.rol,
                           Password:this.state.Dni,
                           LastName: this.state.LastName,
                           Name: this.state.Name,
