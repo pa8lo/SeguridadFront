@@ -4,6 +4,8 @@ import './App.css';
 import Users from './components/Users.js';
 import LoginForm from './components/Login.js';
 import SingUpWithRol from './components/SingUpWithRol.js';
+import { BrowserRouter as Route, Redirect} from "react-router-dom";
+import BasicExample from './components/BasicExample.js';
 
 class App extends Component {
   render() {
@@ -15,10 +17,11 @@ class App extends Component {
         </header>
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
+          <a href="/Users">Users</a>
         </p>
-        <LoginForm/>
-        <SingUpWithRol/>
-        <Users/>
+        
+        <BasicExample/>
+        
       </div>
     );
   }

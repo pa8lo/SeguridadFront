@@ -19,16 +19,23 @@ export default class Users extends React.Component {
   }
 
   async componentDidMount() {
+    
    var accessToken =  localStorage.getItem('access-token');
-   console.log(accessToken)
+   alert(accessToken);
+   console.log(accessToken);
+   try {
+    
    await  axios.get('http://localhost:1337/User/users',
     {headers: {'access-token': accessToken}})
       .then(res => {
         const users = res.data;
         console.log( res.data)
         this.setState({  users });
-        
       })
+      
+    } catch(err) {
+      alert(err);
+    }
   }
   async userDetail(id){
       alert(id)

@@ -43,7 +43,7 @@ class LoginForm extends React.Component {
                 localStorage.setItem('access-token', res.data.token);
                 alert( res.data.token)
                 } catch (error) {
-                 alert(error)
+                alert(error)
              } 
              
              }else{

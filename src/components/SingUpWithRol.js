@@ -36,7 +36,7 @@ export default class SingUpWithRol extends React.Component {
     {headers: {'access-token': accessToken}})
       .then(res => {
         const rols = res.data.roles;
-        console.log( res.data)
+        // console.log( res.data)
         this.setState({  rols });
         
       })
@@ -68,8 +68,9 @@ export default class SingUpWithRol extends React.Component {
                        }
                    try {
                      var accessToken =  localStorage.getItem('access-token');
-                      const res = await axios.post("http://localhost:1337/User/SingUp",data,{headers: {'access-token': accessToken}});                     
-                      } catch (error) {
+                      const res = await axios.post("http://localhost:1337/User/CreateUser",data,{headers: {'access-token': accessToken}});                     
+                      alert( res.data.message)  
+                    } catch (error) {
                        alert(error)
                    } 
                    
@@ -227,7 +228,7 @@ export default class SingUpWithRol extends React.Component {
             />
            </FormGroup>
           <FormControl.Feedback />
-          <Button type="submit" onClick={this.handleSubmit}>Iniciar Sesion</Button>
+          <Button type="submit" onClick={this.handleSubmit}>Registrar Usuario</Button>
           
         
               
