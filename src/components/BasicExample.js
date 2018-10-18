@@ -3,8 +3,11 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Users from './Users.js';
 import Login from './Login.js';
 import SingUpWithRol from './SingUpWithRol';
+import PersistentDrawer from './SideBar';
 
 const BasicExample = () => (
+    <div>
+    <PersistentDrawer/>
   <Router>
     <div>
       <ul>
@@ -26,6 +29,7 @@ const BasicExample = () => (
       <Route path="/sign-up" component={Registrarse} />
     </div>
   </Router>
+  </div>
 );
 
 const Usuarios = () => (
