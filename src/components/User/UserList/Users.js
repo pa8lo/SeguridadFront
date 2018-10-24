@@ -61,6 +61,7 @@ export default class Users extends React.Component {
         <TableCell >{user.Name}</TableCell>
         <TableCell >{user.LastName}</TableCell>
         <TableCell >{user.Email}</TableCell>
+        <TableCell><Button onClick={() => this.userDetail(user.id)}>eliminar usuario</Button></TableCell>
       </TableRow>
     )
     

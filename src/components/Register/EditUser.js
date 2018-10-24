@@ -17,7 +17,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = StylesLoginForm;
 
-class SingUpWithRol extends React.Component {
+class EditUser extends React.Component {
   constructor(props, context) {
     super(props, context);
       this.handleDni = this.handleDni.bind(this);
@@ -26,10 +26,8 @@ class SingUpWithRol extends React.Component {
       this.handleSubmit = this.handleSubmit.bind(this);
       this.handleLastName = this.handleLastName.bind(this);
       this.handleName =this.handleName.bind(this);
-      this.handleDepartment=this.handleDepartment.bind(this);
-      this.handleAdress=this.handleAdress.bind(this);
-      this.handleFloor=this.handleFloor.bind(this);
-      this.handleNumber=this.handleNumber.bind(this);
+      this.handleUser = this.handleUser.bind(this);
+      
       this.state = {
         Dni: '',
         Email:'',
@@ -37,10 +35,8 @@ class SingUpWithRol extends React.Component {
         rol:'',
         LastName:'',
         Name:'',
-        Department:'',
-        Adress:'',
-        Floor:'',
-        Number:''
+        Users: [],
+        idUser:'',
       };
   }
 
@@ -54,6 +50,13 @@ class SingUpWithRol extends React.Component {
         this.setState({rols : rols});
         
       })
+
+      await  axios.get('http://localhost:1337/User/Users',
+      {headers: {'access-token': accessToken}})
+        .then(res => {
+          const users = res.data;
+          this.setState({Users : users});
+        })
   }
   async handleSubmit(e){
     console.log(this.state)
@@ -72,17 +75,10 @@ class SingUpWithRol extends React.Component {
                           Name: this.state.Name,
                           Number: this.state.Number,
                         },
-                        Adress:{
-                          Department: this.state.Department,
-                          Adress: this.state.Adress,
-                          Floor: this.state.Floor,
-                          
-                        },
-                        
                        }
                    try {
                      var accessToken =  localStorage.getItem('access-token');
-                      const res = await axios.post("http://localhost:1337/User/CreateUser",data,{headers: {'access-token': accessToken}});                     
+                      const res = await axios.put("http://localhost:1337/User/UpdateUser",data,{headers: {'access-token': accessToken}});                     
                       alert( res.data.message)  
                     } catch (error) {
                        alert(error)
@@ -102,6 +98,10 @@ class SingUpWithRol extends React.Component {
     this.setState({ rol: e.target.value });
   }
 
+  handleUser(e){
+    this.setState({ idUser: e.target.value });
+  }
+
   handleDni(e) {
     this.setState({ Dni: e.target.value });
 
@@ -112,22 +112,6 @@ class SingUpWithRol extends React.Component {
 
     handleName(e){
       this.setState({ Name: e.target.value });
-    }
-
-    handleAdress(e){
-      this.setState({ Adress: e.target.value });
-    }
-
-    handleDepartment(e){
-      this.setState({ Department: e.target.value });
-    }
-
-    handleFloor(e){
-      this.setState({ Floor: e.target.value });
-    }
-
-    handleNumber(e){
-      this.setState({ Number: e.target.value });
     }
 
     handleEmail(e) {
@@ -141,8 +125,8 @@ class SingUpWithRol extends React.Component {
     console.log("roles"+rols)
     const listRols = rols.map((rol) =>
     <option value={rol.id}>{rol.Name}</option>
-    
     );
+
     return (
     <FormGroup controlid="formControlsSelect">
     <ControlLabel>Select</ControlLabel>
@@ -159,6 +143,31 @@ class SingUpWithRol extends React.Component {
     );
 
   }
+
+  usersList() {
+    console.log(this.state.Users)
+    const users = this.state.Users
+    console.log("usuarios"+users)
+    const listUser = users.map((users) =>
+    <option value={users.id}>{users.Name}</option>
+    );
+
+    return (
+    <FormGroup controlid="formControlsSelect">
+    <ControlLabel>Seleccionar</ControlLabel>
+      <FormControl
+      controlid="formControlsSelect"
+      componentClass="select" placeholder="select"
+      value={this.state.idUser}
+      placeholder="Enter text"
+      onChange={this.handleUser}>
+        <option value="">Seleccionar Usuario</option>
+        {listUser} 
+      </FormControl>
+      </FormGroup>
+    );
+
+  }
  
   render() {
 
@@ -170,11 +179,8 @@ class SingUpWithRol extends React.Component {
             <CssBaseline />
             <main className={classes.layout}>
               <Paper className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                  <LockIcon />
-                </Avatar>
                 <Typography component="h1" variant="h5">
-                  Registro de Emplados
+                  Editar Emplados
                 </Typography>
                 <form className={classes.form}>
           <FormGroup>
@@ -215,6 +221,7 @@ class SingUpWithRol extends React.Component {
           />
           </FormGroup>   
           {this.rolsList()}
+          {this.usersList()}
           <FormControl.Feedback />
           <FormGroup>
             <ControlLabel>Direcciòn</ControlLabel>        
@@ -256,21 +263,18 @@ class SingUpWithRol extends React.Component {
             />
            </FormGroup>
           <FormControl.Feedback />
-          <Button type="submit" onClick={this.handleSubmit}>Registrar Usuario</Button>
+          <Button type="submit" onClick={this.handleSubmit}>Editar Usuario</Button>
           </form>
               </Paper>
             </main>
           </React.Fragment>
-        
-              
-             
       </ul>
     )
   }
 }
 
-SingUpWithRol.propTypes = {
+EditUser.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SingUpWithRol);
+export default withStyles(styles)(EditUser);

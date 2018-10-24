@@ -7,6 +7,7 @@ import Reports from './Reports/Dashboard';
 import PersistentDrawer from './SideBar';
 import Checkout from './Order/Checkout';
 import MainOrder from './Order/MainOrder';
+import EditUser from './Register/EditUser';
 // import SignInForm from './SignInForm'
 
 const BasicExample = () => (
@@ -33,6 +34,9 @@ const BasicExample = () => (
         <li>
           <Link to="/order">Pedido</Link>
         </li>
+        <li>
+          <Link to="/edit-user">Editar Usuario</Link>
+        </li>
       </ul>
 
       <hr />
@@ -41,8 +45,9 @@ const BasicExample = () => (
       <Route path="/sign-in" component={Ingresar} />
       <Route path="/sign-up" component={Registrarse} />
       <Route path="/reports" component={Reportes} />
-      <Route path="/register-an-order" component={Checkout} />
+      <Route path="/register-an-order" component={GenerarPedido} />
       <Route path="/order" component={MainOrder} />
+      <Route path="/edit-user" component={EditarUsuario} />
     </div>
   </Router>
   </div>
@@ -66,6 +71,10 @@ const Reportes = () => (
 
 const GenerarPedido = () => (
     <Checkout/>
+);
+
+const EditarUsuario = () => (
+  <EditUser/>
 );
 
 /*
