@@ -15,7 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { mailFolderListItems, otherMailFolderListItems } from './tileData';
-import LoginForm from './Login';
+//import LoginForm from './Login';
 
 const drawerWidth = 240;
 
@@ -96,6 +96,9 @@ const styles = theme => ({
   'contentShift-right': {
     marginRight: 0,
   },
+  'typography': {
+    useNextVariants: true,
+  },
 });
 
 class PersistentDrawer extends React.Component {
@@ -171,7 +174,7 @@ class PersistentDrawer extends React.Component {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="h6" color="inherit" noWrap>
+              <Typography className={classes.typography} variant="h6" color="inherit" noWrap>
                 Persistent drawer
               </Typography>
             </Toolbar>
@@ -184,7 +187,7 @@ class PersistentDrawer extends React.Component {
             })}
           >
             <div className={classes.drawerHeader} />
-            <Login/>
+            {/* <Login/> */}
           </main>
           {after}
         </div>

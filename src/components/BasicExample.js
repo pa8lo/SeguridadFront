@@ -1,13 +1,17 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Users from './Users.js';
-import Login from './Login.js';
-import SingUpWithRol from './SingUpWithRol';
+import Users from './User/UserList/Users';
+import Login from './Login/Login.js';
+import SingUpWithRol from './Register/SingUpWithRol';
+import Reports from './Reports/Dashboard';
 import PersistentDrawer from './SideBar';
+import Checkout from './Order/Checkout';
+import MainOrder from './Order/MainOrder';
+// import SignInForm from './SignInForm'
 
 const BasicExample = () => (
     <div>
-    <PersistentDrawer/>
+    {/* <PersistentDrawer/> */}
   <Router>
     <div>
       <ul>
@@ -20,6 +24,15 @@ const BasicExample = () => (
         <li>
           <Link to="/sign-up">Registrarse</Link>
         </li>
+        <li>
+          <Link to="/reports">Reportes</Link>
+        </li>
+        <li>
+          <Link to="/register-an-order">Generar Pedidos</Link>
+        </li>
+        <li>
+          <Link to="/order">Pedido</Link>
+        </li>
       </ul>
 
       <hr />
@@ -27,6 +40,9 @@ const BasicExample = () => (
       <Route exact path="/users" component={Usuarios} />
       <Route path="/sign-in" component={Ingresar} />
       <Route path="/sign-up" component={Registrarse} />
+      <Route path="/reports" component={Reportes} />
+      <Route path="/register-an-order" component={Checkout} />
+      <Route path="/order" component={MainOrder} />
     </div>
   </Router>
   </div>
@@ -42,6 +58,14 @@ const Ingresar = () => (
 
 const Registrarse = () => (
     <SingUpWithRol/>
+);
+
+const Reportes = () => (
+    <Reports/>
+);
+
+const GenerarPedido = () => (
+    <Checkout/>
 );
 
 /*
