@@ -1,6 +1,8 @@
 const StylesMainOrder = theme => ({
   root: {
     flexGrow: 1,
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
   },
   paper: {
     padding: theme.spacing.unit * 2,
@@ -18,6 +20,22 @@ const StylesMainOrder = theme => ({
   },
   input: {
     display: 'none',
+  },
+  table: {
+    minWidth: 700,
+    fontSize: '10pt',
+  },
+  button: {
+    margin: theme.spacing.unit*3,
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit*3,
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+  },
+  iconSmall: {
+    fontSize: 20,
   },
 });
 

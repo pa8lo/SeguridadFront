@@ -51,8 +51,15 @@ class SingUpWithRol extends React.Component {
     {headers: {'access-token': accessToken}})
       .then(res => {
         const rols = res.data;
-        this.setState({rols : rols});
-        
+        this.setState({rols : [
+          {id : 1,
+            Name:"Administrador"
+          },
+          {id : 2,
+            Name: "Usuario"
+          }
+        ]});
+        //console.log("Hola "+JSON.stringify(res.data));
       })
   }
   async handleSubmit(e){
@@ -75,6 +82,8 @@ class SingUpWithRol extends React.Component {
                         Adress:{
                           Department: this.state.Department,
                           Adress: this.state.Adress,
+                          Cp: "Sin CP",
+                          LatLong: "Sin Latitud",                        
                           Floor: this.state.Floor,
                           
                         },

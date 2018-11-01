@@ -56,9 +56,9 @@ const steps = ['Dirección de Envío', 'Metodo de Pago', 'Revision de Pedido'];
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <AddressForm />;
-    case 1:
       return <PaymentForm />;
+    case 1:
+      return <AddressForm />;
     case 2:
       return <Review />;
     default:
