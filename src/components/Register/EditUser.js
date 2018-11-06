@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
 import {DropdownButton,MenuItem,Button,FormGroup,FormControl,HelpBlock,ControlLabel} from 'react-bootstrap';
 import StylesLoginForm from '../../assets/css/Login/StylesLoginForm';
@@ -14,12 +14,20 @@ import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import { withRouter } from 'react-router-dom'
+
 
 const styles = StylesLoginForm;
 
-class EditUser extends React.Component {
+class EditUser extends Component {
   constructor(props, context) {
+
+    var currentLocation = window.location.pathname;
+    var url_array = currentLocation.split('/');
+    var idUser = url_array[2];
+    
     super(props, context);
+
       this.handleDni = this.handleDni.bind(this);
       this.handleEmail = this.handleEmail.bind(this);
       this.handleRol = this.handleRol.bind(this);
@@ -36,29 +44,32 @@ class EditUser extends React.Component {
         LastName:'',
         Name:'',
         Users: [],
-        idUser:'',
+        idUser: idUser,
       };
   }
 
-  async componentDidMount() {
-  alert(this.props.location.search);
-  console.log(this.props.match.params.id);
-    //  var accessToken =  localStorage.getItem('access-token');
-  //  console.log(accessToken)
-  //  await  axios.get('http://localhost:1337/Rol/rols',
-  //   {headers: {'access-token': accessToken}})
-  //     .then(res => {
-  //       const rols = res.data;
-  //       this.setState({rols : rols});
-        
-  //     })
+  
 
-  //     await  axios.get('http://localhost:1337/User/Users',
-  //     {headers: {'access-token': accessToken}})
-  //       .then(res => {
-  //         const users = res.data;
-  //         this.setState({Users : users});
-  //       })
+  async componentDidMount() {
+
+    
+
+     var accessToken =  localStorage.getItem('access-token');
+   console.log(accessToken)
+   await  axios.get('http://localhost:1337/Rol/rols',
+    {headers: {'access-token': accessToken}})
+      .then(res => {
+        const rols = res.data;
+        this.setState({rols : rols});
+        
+      })
+
+      await  axios.get('http://localhost:1337/User/Users',
+      {headers: {'access-token': accessToken}})
+        .then(res => {
+          const users = res.data;
+          this.setState({Users : users});
+        })
   }
   async handleSubmit(e){
     console.log(this.state)
@@ -176,6 +187,7 @@ class EditUser extends React.Component {
     const { classes } = this.props;
 
     return (
+      
       <ul>
         <React.Fragment>
             <CssBaseline />
