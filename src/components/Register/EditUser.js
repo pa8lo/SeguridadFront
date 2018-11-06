@@ -41,22 +41,24 @@ class EditUser extends React.Component {
   }
 
   async componentDidMount() {
-   var accessToken =  localStorage.getItem('access-token');
-   console.log(accessToken)
-   await  axios.get('http://localhost:1337/Rol/rols',
-    {headers: {'access-token': accessToken}})
-      .then(res => {
-        const rols = res.data;
-        this.setState({rols : rols});
+  alert(this.props.location.search);
+  console.log(this.props.match.params.id);
+    //  var accessToken =  localStorage.getItem('access-token');
+  //  console.log(accessToken)
+  //  await  axios.get('http://localhost:1337/Rol/rols',
+  //   {headers: {'access-token': accessToken}})
+  //     .then(res => {
+  //       const rols = res.data;
+  //       this.setState({rols : rols});
         
-      })
+  //     })
 
-      await  axios.get('http://localhost:1337/User/Users',
-      {headers: {'access-token': accessToken}})
-        .then(res => {
-          const users = res.data;
-          this.setState({Users : users});
-        })
+  //     await  axios.get('http://localhost:1337/User/Users',
+  //     {headers: {'access-token': accessToken}})
+  //       .then(res => {
+  //         const users = res.data;
+  //         this.setState({Users : users});
+  //       })
   }
   async handleSubmit(e){
     console.log(this.state)

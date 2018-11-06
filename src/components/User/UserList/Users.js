@@ -49,7 +49,7 @@ export default class Users extends React.Component {
       alert(err);
     }
   }
-  async userDetail(id){
+  async userDelete(id){
     var accessToken =  localStorage.getItem('access-token');
     var data = {'id': id};
     await axios.patch("http://localhost:1337/User/DeleteUser",data,{headers: {'access-token': accessToken}})
@@ -58,6 +58,10 @@ export default class Users extends React.Component {
     })
     }
   
+    userEdit(){
+      
+    }
+
      usersFills() {
     const listUser = this.state.users.map((user) =>
       <TableRow key={user.id}>
@@ -67,7 +71,8 @@ export default class Users extends React.Component {
         <TableCell >{user.Name}</TableCell>
         <TableCell >{user.LastName}</TableCell>
         <TableCell >{user.Email}</TableCell>
-        <TableCell><Button onClick={() => this.userDetail(user.id)}>eliminar usuario</Button></TableCell>
+        <TableCell><Button onClick={() => this.userDelete(user.id)}>eliminar usuario</Button></TableCell>
+        <TableCell><Button onClick={() => this.userEdit(user.id)}>eliminar usuario</Button></TableCell>
       </TableRow>
     )  
     

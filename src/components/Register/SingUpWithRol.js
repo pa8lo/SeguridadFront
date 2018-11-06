@@ -51,14 +51,7 @@ class SingUpWithRol extends React.Component {
     {headers: {'access-token': accessToken}})
       .then(res => {
         const rols = res.data;
-        this.setState({rols : [
-          {id : 1,
-            Name:"Administrador"
-          },
-          {id : 2,
-            Name: "Usuario"
-          }
-        ]});
+        this.setState({rols : rols});
         //console.log("Hola "+JSON.stringify(res.data));
       })
   }

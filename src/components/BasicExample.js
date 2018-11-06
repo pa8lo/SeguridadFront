@@ -35,7 +35,7 @@ const BasicExample = () => (
           <Link to="/order">Pedido</Link>
         </li>
         <li>
-          <Link to="/edit-user">Editar Usuario</Link>
+          <Link to="/edit-user" params={{id: "foo"}}>Editar Usuario</Link>
         </li>
       </ul>
 
@@ -47,7 +47,7 @@ const BasicExample = () => (
       <Route path="/reports" component={Reportes} />
       <Route path="/register-an-order" component={GenerarPedido} />
       <Route path="/order" component={MainOrder} />
-      <Route path="/edit-user" component={EditarUsuario} />
+      <Route path="/edit-user/:id" component={EditarUsuario} />
     </div>
   </Router>
   </div>
