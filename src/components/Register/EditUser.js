@@ -18,14 +18,17 @@ import { withRouter } from 'react-router-dom'
 
 
 const styles = StylesLoginForm;
-
+var idUser = "";
+var UserInd = "";
 class EditUser extends Component {
   constructor(props, context) {
 
     var currentLocation = window.location.pathname;
     var url_array = currentLocation.split('/');
-    var idUser = url_array[2];
+    idUser = url_array[2];
     
+    alert(idUser);
+
     super(props, context);
 
       this.handleDni = this.handleDni.bind(this);
@@ -36,40 +39,46 @@ class EditUser extends Component {
       this.handleName =this.handleName.bind(this);
       this.handleUser = this.handleUser.bind(this);
       
-      this.state = {
-        Dni: '',
-        Email:'',
-        rols:[],
-        rol:'',
-        LastName:'',
-        Name:'',
-        Users: [],
-        idUser: idUser,
-      };
+      this.state = 
+      {
+        user:{
+              Dni: '',
+              Email:'',
+              rol:'',
+              LastName:'',
+              Name:'',
+              PrimaryPhone:'',
+              SecondaryPhone:'',              
+      },
+      idUser: idUser,
+      rols:[]
+    }
   }
 
   
 
   async componentDidMount() {
+      var accessToken =  localStorage.getItem('access-token');
+      console.log(accessToken)
+      await  axios.get('http://localhost:1337/Rol/rols',
+        {headers: {'access-token': accessToken}})
+          .then(res => {
+            const rols = res.data;
+            this.setState({rols : rols});
+            
+          })
 
-    
-
-     var accessToken =  localStorage.getItem('access-token');
-   console.log(accessToken)
-   await  axios.get('http://localhost:1337/Rol/rols',
-    {headers: {'access-token': accessToken}})
-      .then(res => {
-        const rols = res.data;
-        this.setState({rols : rols});
-        
-      })
-
-      await  axios.get('http://localhost:1337/User/Users',
+      await  axios.get('http://localhost:1337/User/User?id='+idUser,
       {headers: {'access-token': accessToken}})
         .then(res => {
-          const users = res.data;
-          this.setState({Users : users});
-        })
+          const user = res.data.user;
+          var usuario = JSON.stringify(user);
+          alert(usuario);
+          this.setState({user : user});
+        });
+
+
+        
   }
   async handleSubmit(e){
     console.log(this.state)
@@ -79,15 +88,7 @@ class EditUser extends Component {
                     this.state.Email !== '' && this.state.LastName !== ''&&
                      this.state.Name !== ''){
                        var data = {
-                         User:{
-                          Dni: this.state.Dni,
-                          Email: this.state.Email,
-                          Rols: this.state.rol,
-                          Password:this.state.Dni,
-                          LastName: this.state.LastName,
-                          Name: this.state.Name,
-                          Number: this.state.Number,
-                        },
+                         User:this.state.user
                        }
                    try {
                      var accessToken =  localStorage.getItem('access-token');
@@ -116,7 +117,7 @@ class EditUser extends Component {
   }
 
   handleDni(e) {
-    this.setState({ Dni: e.target.value });
+    this.setState({ user:{Dni : e.target.value }});
 
   }
     handleLastName(e){
@@ -129,8 +130,7 @@ class EditUser extends Component {
 
     handleEmail(e) {
         this.setState({ Email: e.target.value });
-      }
-
+    }
     
    rolsList() {
     console.log(this.state.rols)
@@ -157,30 +157,30 @@ class EditUser extends Component {
 
   }
 
-  usersList() {
-    console.log(this.state.Users)
-    const users = this.state.Users
-    console.log("usuarios"+users)
-    const listUser = users.map((users) =>
-    <option value={users.id}>{users.Name}</option>
-    );
+  // usersList() {
+  //   console.log(this.state.Users)
+  //   const users = this.state.Users
+  //   console.log("usuarios"+users)
+  //   const listUser = users.map((users) =>
+  //   <option value={users.id}>{users.Name}</option>
+  //   );
 
-    return (
-    <FormGroup controlid="formControlsSelect">
-    <ControlLabel>Seleccionar</ControlLabel>
-      <FormControl
-      controlid="formControlsSelect"
-      componentClass="select" placeholder="select"
-      value={this.state.idUser}
-      placeholder="Enter text"
-      onChange={this.handleUser}>
-        <option value="">Seleccionar Usuario</option>
-        {listUser} 
-      </FormControl>
-      </FormGroup>
-    );
+  //   return (
+  //   <FormGroup controlid="formControlsSelect">
+  //   <ControlLabel>Seleccionar</ControlLabel>
+  //     <FormControl
+  //     controlid="formControlsSelect"
+  //     componentClass="select" placeholder="select"
+  //     value={this.state.idUser}
+  //     placeholder="Enter text"
+  //     onChange={this.handleUser}>
+  //       <option value="">Seleccionar Usuario</option>
+  //       {listUser} 
+  //     </FormControl>
+  //     </FormGroup>
+  //   );
 
-  }
+  // }
  
   render() {
 
@@ -201,16 +201,17 @@ class EditUser extends Component {
             <ControlLabel>Dni</ControlLabel>        
             <FormControl
               type="string"
-              value={this.state.Dni}
+              value={this.state.user.Dni}
               placeholder="Enter text"
               onChange={this.handleDni}
+              disabled={true}
             />
            </FormGroup>
            <FormGroup>
             <ControlLabel>Nombre</ControlLabel>        
             <FormControl
               type="string"
-              value={this.state.Name}
+              value={this.state.user.Name}
               placeholder="Enter text"
               onChange={this.handleName}
             />
@@ -219,7 +220,7 @@ class EditUser extends Component {
             <ControlLabel>Apellido</ControlLabel>        
             <FormControl
               type="string"
-              value={this.state.LastName}
+              value={this.state.user.LastName}
               placeholder="Enter text"
               onChange={this.handleLastName}
             />
@@ -229,19 +230,18 @@ class EditUser extends Component {
           <FormGroup>
           <FormControl
             type="email"
-            value={this.state.Email}
+            value={this.state.user.Email}
             placeholder="Enter text"
             onChange={this.handleEmail}
           />
           </FormGroup>   
           {this.rolsList()}
-          {this.usersList()}
           <FormControl.Feedback />
           <FormGroup>
             <ControlLabel>Direcciòn</ControlLabel>        
             <FormControl
               type="string"
-              value={this.state.Adress}
+              value={this.state.user.Adress}
               placeholder="Enter text"
               onChange={this.handleAdress}
             />
@@ -251,7 +251,7 @@ class EditUser extends Component {
             <ControlLabel>Departamento</ControlLabel>        
             <FormControl
               type="string"
-              value={this.state.Department}
+              value={this.state.user.Department}
               placeholder="Enter text"
               onChange={this.handleDepartment}
             />
@@ -271,7 +271,7 @@ class EditUser extends Component {
             <ControlLabel>Telefono</ControlLabel>        
             <FormControl
               type="string"
-              value={this.state.Number}
+              value={this.state.user.PrimaryPhone}
               placeholder="Enter text"
               onChange={this.handleNumber}
             />

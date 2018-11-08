@@ -29,7 +29,7 @@ class SingUpWithRol extends React.Component {
       this.handleDepartment=this.handleDepartment.bind(this);
       this.handleAdress=this.handleAdress.bind(this);
       this.handleFloor=this.handleFloor.bind(this);
-      this.handleNumber=this.handleNumber.bind(this);
+      this.handlePrimaryPhone=this.handlePrimaryPhone.bind(this);
       this.state = {
         Dni: '',
         Email:'',
@@ -40,7 +40,8 @@ class SingUpWithRol extends React.Component {
         Department:'',
         Adress:'',
         Floor:'',
-        Number:''
+        PrimaryPhone:'',
+        // SecondaryPhone:''
       };
   }
 
@@ -70,7 +71,7 @@ class SingUpWithRol extends React.Component {
                           Password:this.state.Dni,
                           LastName: this.state.LastName,
                           Name: this.state.Name,
-                          Number: this.state.Number,
+                          PrimaryPhone: this.state.PrimaryPhone,
                         },
                         Adress:{
                           Department: this.state.Department,
@@ -128,8 +129,8 @@ class SingUpWithRol extends React.Component {
       this.setState({ Floor: e.target.value });
     }
 
-    handleNumber(e){
-      this.setState({ Number: e.target.value });
+    handlePrimaryPhone(e){
+      this.setState({ PrimaryPhone: e.target.value });
     }
 
     handleEmail(e) {
@@ -217,44 +218,13 @@ class SingUpWithRol extends React.Component {
           />
           </FormGroup>   
           {this.rolsList()}
-          <FormControl.Feedback />
-          <FormGroup>
-            <ControlLabel>Direcciòn</ControlLabel>        
-            <FormControl
-              type="string"
-              value={this.state.Adress}
-              placeholder="Enter text"
-              onChange={this.handleAdress}
-            />
-           </FormGroup>
-          <FormControl.Feedback />
-          <FormGroup>
-            <ControlLabel>Departamento</ControlLabel>        
-            <FormControl
-              type="string"
-              value={this.state.Department}
-              placeholder="Enter text"
-              onChange={this.handleDepartment}
-            />
-           </FormGroup>
-          <FormControl.Feedback />
-          <FormGroup>
-            <ControlLabel>Piso</ControlLabel>        
-            <FormControl
-              type="string"
-              value={this.state.Floor}
-              placeholder="Enter text"
-              onChange={this.handleFloor}
-            />
-           </FormGroup>
-          <FormControl.Feedback />
           <FormGroup>
             <ControlLabel>Telefono</ControlLabel>        
             <FormControl
               type="string"
-              value={this.state.Number}
+              value={this.state.PrimaryPhone}
               placeholder="Enter text"
-              onChange={this.handleNumber}
+              onChange={this.handlePrimaryPhone}
             />
            </FormGroup>
           <FormControl.Feedback />
