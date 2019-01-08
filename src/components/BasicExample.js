@@ -8,6 +8,7 @@ import PersistentDrawer from './SideBar';
 import Checkout from './Order/Checkout';
 import MainOrder from './Order/MainOrder';
 import EditUser from './Register/EditUser';
+import ChangePassword from './Profile/ChangePassword'
 // import SignInForm from './SignInForm'
 
 const BasicExample = () => (
@@ -37,6 +38,9 @@ const BasicExample = () => (
         <li>
           <Link to="/edit-user">Editar Usuario</Link>
         </li>
+        <li>
+          <Link to="/change-password">Cambiar Contraseña</Link>
+        </li>
       </ul>
 
       <hr />
@@ -47,6 +51,7 @@ const BasicExample = () => (
       <Route path="/reports" component={Reportes} />
       <Route path="/register-an-order" component={GenerarPedido} />
       <Route path="/order" component={MainOrder} />
+      <Route path="/change-password" component={ChangePassword} />
       {/* <Route path="/edit-user/:id" component={EditarUsuario} /> */}
       <Route path='/edit-user/:id' component={EditarUsuario} />
     </div>
