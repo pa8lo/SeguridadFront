@@ -41,7 +41,6 @@ class SignInForm extends Component {
       }
     async handleSubmiit(e){
          try {
-          alert("aca")
              if(this.state.Dni !== '' && this.state.Password !== ''){
                  var data = {
                      Dni:this.state.Dni,

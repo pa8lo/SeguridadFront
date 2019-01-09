@@ -11,7 +11,7 @@ const StylesLoginForm = theme => ({
       },
     },
     layoutPassword: {
-      width: '90%',
+      width: '100%',
  
     },
     paper: {
