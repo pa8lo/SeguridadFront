@@ -24,7 +24,7 @@ class SignInForm extends Component {
   
       this.handleDni = this.handleDni.bind(this);
       this.handlePassword = this.handlePassword.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
+      this.handleSubmiit = this.handleSubmiit.bind(this);
       this.state = {
         Dni: '',
         Password:''
@@ -39,9 +39,9 @@ class SignInForm extends Component {
     handlePassword(e) {
         this.setState({ Password: e.target.value });
       }
-    async handleSubmit(e){
+    async handleSubmiit(e){
          try {
-
+          alert("aca")
              if(this.state.Dni !== '' && this.state.Password !== ''){
                  var data = {
                      Dni:this.state.Dni,
@@ -104,12 +104,11 @@ class SignInForm extends Component {
                     label="Recordarme"
                   />
                   <Button
-                    type="submit"
                     fullWidth
                     variant="contained"
                     color="primary"
                     className={classes.submit}
-                    onClick= {this.handleSubmit}
+                    onClick= {this.handleSubmiit}
                   >
                     Ingresar
                   </Button>

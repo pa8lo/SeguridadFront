@@ -11,12 +11,8 @@ const StylesLoginForm = theme => ({
       },
     },
     layoutPassword: {
-      width: 'auto',
-      display: 'block', // Fix IE 11 issue.
-      marginLeft: theme.spacing.unit * 3,
-      marginRight: theme.spacing.unit * 3,
-      width: 550,
-      text: 'center'
+      width: '90%',
+ 
     },
     paper: {
       marginTop: theme.spacing.unit * 8,
