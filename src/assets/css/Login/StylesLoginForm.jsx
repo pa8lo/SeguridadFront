@@ -1,3 +1,7 @@
+import pink from '@material-ui/core/colors/pink';
+import green from '@material-ui/core/colors/green';
+import blue from '@material-ui/core/colors/blue';
+
 const StylesLoginForm = theme => ({
     layout: {
       width: 'auto',
@@ -32,6 +36,20 @@ const StylesLoginForm = theme => ({
     submit: {
       marginTop: theme.spacing.unit * 3,
     },
+    buttonProgress:{
+      color: pink[500],
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      marginTop: -12,
+      marginLeft: -12,
+    },
+    buttonSucess:{
+      background : green[500]
+    },
+    buttonNormal:{
+      background : blue[500]
+    }
 });
 
 export default StylesLoginForm;

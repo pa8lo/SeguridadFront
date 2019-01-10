@@ -12,10 +12,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid';
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-
+import FormHelperText from '@material-ui/core/FormHelperText';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import StylesLoginForm from '../../assets/css/Login/StylesLoginForm'
 
@@ -24,45 +22,91 @@ const styles = StylesLoginForm;
  class ChangePassword extends React.Component {
     constructor(props, context) {
       super(props, context);
+
       this.handlerepeatPassword = this.handlerepeatPassword.bind(this);
       this.handlePassword = this.handlePassword.bind(this);
       this.handlenewPassword = this.handlenewPassword.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
-      this.openSnackbarNotTheSamePassword = this.openSnackbarNotTheSamePassword.bind(this);
+      this.checkNewPassword =this.checkNewPassword.bind(this);
       this.state = {
           passwordError:false,
+          passwordErrorDisplay:'none',
           password: "",
+          newPasswordErrorLenght:false,
+          newPasswordErrorLenghtDisplay:'none',
+          newPasswordErrorEmpty:true,
+          newPasswordErrorEmptyDisplay:'none',
           newPasswordError:false,
           newPassword:"",
-          repeatPasswordError:false,        
+          repeatPasswordError:false,
+          repeatPasswordErrorNotSameDisplay : 'none',
+          repeatPasswordErrorEmptyDisplay : 'none',        
           repeatPassword:"",
-          SnackbarPassword:false,
-          SnackbarNotTheSamePassword:false
+          buttonText:"Modificar Contraseña ",
+          buttonSuccess:false,
+          buttonProgress:false,
+          buttonClass:'buttonNormal',
+
       };
     }
-    handleClosePassword = (event, reason) => {
-      if (reason === 'clickaway') {
-        return;
+    checkRepeatPassword(){
+      if(this.state.repeatPassword=== ""){
+        this.setState({ repeatPasswordError : true})
+       this.setState({ repeatPasswordErrorEmptyDisplay : 'block'})
+       this.setState({ repeatPasswordErrorNotSameDisplay : 'none'})
+       return false
+      }else if (this.state.repeatPassword !== this.state.newPassword){
+        this.setState({ repeatPasswordError : true})
+        this.setState({ repeatPasswordErrorEmptyDisplay : 'none'})
+        this.setState({ repeatPasswordErrorNotSameDisplay : 'block'})
+        return false
+      }else{
+        this.setState({ repeatPasswordError : false})
+        this.setState({ repeatPasswordErrorEmptyDisplay : 'none'})
+        this.setState({ repeatPasswordErrorNotSameDisplay : 'none'})
+        return true
       }
-  
-      this.setState({ SnackbarPassword: false });
-    };
-    openSnackbarnewPassword(){
-      this.setState({newPasswordError : true})
-      this.setState({ SnackbarPassword: true });
     }
-    openSnackbarrepeatPassword(){
-      this.setState({repeatPasswordError : true})
-      this.setState({ SnackbarPassword: true });
+    checkPassword(){
+      if(this.state.password=== ""){
+       this.setState({ passwordError : true})
+       this.setState({ passwordErrorDisplay : 'block'})
+       return false
+      }else{
+        this.setState({ passwordError : false})
+       this.setState({ passwordErrorDisplay : 'none'})
+       return true
+      }
     }
-    openSnackbarPassword(){
-      this.setState({passwordError : true})
-      this.setState({ SnackbarPassword: true });
+    checkNewPassword(){
+      if(this.state.newPassword===""){
+        this.setState({newPasswordErrorLenght : true})
+        this.setState({newPasswordError : true})
+        this.setState({newPasswordErrorEmptyDisplay:'block',})
+        this.setState({newPasswordErrorLenghtDisplay:'none'})
+        this.setState({newPasswordErrorEmpty : false})
+
+        return false
+      }else if(this.state.newPassword.length < 6){
+        this.setState({newPasswordErrorLenght : false})
+        this.setState({newPasswordErrorEmpty : true})
+        this.setState({newPasswordErrorEmptyDisplay:'none'})
+        this.setState({newPasswordErrorLenghtDisplay:'block',})
+        this.setState({newPasswordError : true})
+
+        return false
+      }else{
+        this.setState({newPasswordErrorLenght : false})
+        this.setState({newPasswordErrorEmpty : true})
+        this.setState({newPasswordErrorEmptyDisplay:'none'})
+        this.setState({newPasswordErrorLenghtDisplay:'none'})
+        this.setState({newPasswordError : false})
+
+        return true
+      }
+
     }
-    openSnackbarNotTheSamePassword(){
-      this.setState({repeatPasswordError : true})
-      this.setState({ SnackbarNotTheSamePassword: true });
-    }
+
     handlePassword(e) {
       this.setState({ password: e.target.value });
     }
@@ -74,60 +118,98 @@ const styles = StylesLoginForm;
     }
     async handleSubmit(e){
       try {
-        (this.state.newPassword==="")? this.openSnackbarnewPassword() :this.setState({newPasswordError : false});
-        (this.state.password==="")?this. openSnackbarrepeatPassword():this.setState({passwordError : false});
-        (this.state.repeatPassword==="")?this.openSnackbarPassword():this.setState({repeatPasswordError : false});
-        if(this.state.newPassword !=="" && this.state.password !=="" && this.state.repeatPassword !=="") {
-          if(this.state.newPassword === this.state.repeatPassword){
-              this.setState({repeatPasswordError : false})
-              var data= {
-                Password : this.state.password,
-                NewPassword :this.state.newPassword
-              }
+        
+        let newPassword = this.checkNewPassword();
+        let password = this.checkPassword();
+        let repeatPassword = this.checkRepeatPassword();
+        if( newPassword && password &&repeatPassword ){
 
-            try {
-              var accessToken =  localStorage.getItem('access-token');
-              const res = await axios.post("http://localhost:1337/User/ChangePassword",data,{headers: {'access-token': accessToken}});
+            if(this.state.newPassword === this.state.repeatPassword){
+                this.setState({repeatPasswordError : false})
+                var data= {
+                  Password : this.state.password,
+                  NewPassword :this.state.newPassword
+                }
 
-              alert( res.data.message)
-              } catch (error) {
-            } 
-          }else{
+              try {
+                var accessToken =  localStorage.getItem('access-token');
+                this.setState(
+                  {
+                    buttonSuccess: false,
+                    buttonProgress: true,
+                  },)
+                const res = await axios.post("http://localhost:1337/User/ChangePassword",data,{headers: {'access-token': accessToken}});
+                this.setState(
+                  {
+                    buttonSuccess: false,
+                    buttonProgress: true,
+                  },
+                  () => {
+                    this.timer = setTimeout(() => {
 
-            this.openSnackbarNotTheSamePassword()
-          }
-        }
+                      this.setState({
+                        buttonProgress: false,
+                        buttonSuccess: true,
+                        buttonText: res.data.message,
+                        buttonClass:'buttonSucess'
+                      });
+                    }, 2000);               
+                  })
+
+                } catch (error) {
+                  if(error.response){
+                    this.setState({
+
+                      buttonProgress: false,
+                      buttonSuccess: true,
+                      buttonText: error.response.data.error,
+                      buttonClass:'buttonAlert'
+                    },
+                  
+                  
+                  () => {
+                    this.timer = setTimeout(() => {
+                      this.setState({
+                        buttonProgress: false,
+                        buttonSuccess: true,
+                        buttonText: "Modificar Contraseña",
+                        buttonClass:'buttonNormal'
+                      });
+                    }, 3000)
+                  }
+                  )
+                }else{
+                  this.setState({
+
+                    buttonProgress: false,
+                    buttonSuccess: true,
+                    buttonText: "Error en el servidor intente mas tarde",
+                    buttonClass:'buttonAlert'
+                  }, () => {
+                    this.timer = setTimeout(() => {
+                      this.setState({
+                        buttonProgress: false,
+                        buttonSuccess: true,
+                        buttonText: "Modificar Contraseña",
+                        buttonClass:'buttonNormal'
+                      });
+                    }, 3000)
+                  })
+                }
+              } 
+            }
+        }  
          
-          
-          
       } catch (error) {
-       //   alert(error)
+          alert("we")
       }
  }
 
     render() {
-        const { classes } = this.props;
+      const { classes } = this.props;
         return (
       <Grid container spacing={24}>
-        <Snackbar
-          open={this.state.SnackbarPassword}
-          autoHideDuration={2000}
-          onClose={this.handleClosePassword}
-          ContentProps={{
-            'aria-describedby': 'message-id',
-          }}
-          message={<span id="message-id">Campos requeridos vacios</span>}
-        />
-
-        <Snackbar
-          open={this.state.SnackbarNotTheSamePassword}
-          autoHideDuration={2000}
-          onClose={this.handleClosePassword}
-          ContentProps={{
-            'aria-describedby': 'message-id',
-          }}
-          message={<span id="message-id">Las contraseñas ingresadas no coinciden</span>}
-        />
+        
          
           <Grid item xs={1} md={3} lg={4}>
           </Grid>
@@ -155,6 +237,7 @@ const styles = StylesLoginForm;
                         error={this.state.passwordError}
                       />
                       </FormControl>
+                      <FormHelperText error={this.state.passwordError}style={{display:this.state.passwordErrorDisplay}}>Este campo es obligatorio</FormHelperText>
                     <FormControl margin="normal" required fullWidth>
                       <InputLabel htmlFor="password">Nueva Contraseña</InputLabel>
                       <Input
@@ -166,6 +249,8 @@ const styles = StylesLoginForm;
                         autoComplete="current-password"
                         error={this.state.newPasswordError}
                       />
+                    <FormHelperText error={!this.state.newPasswordErrorEmpty} filled={false} style={{display:this.state.newPasswordErrorEmptyDisplay}}>Este campo es obligatorio</FormHelperText>
+                    <FormHelperText error={!this.state.newPasswordErrorLenght} filled={false} style={{display:this.state.newPasswordErrorLenghtDisplay}}>La contraseña debe tener un minimo de 6 numeros o letras</FormHelperText>
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
                       <InputLabel htmlFor="password">Repetir Contraseña</InputLabel>
@@ -178,16 +263,21 @@ const styles = StylesLoginForm;
                         autoComplete="current-password"
                         error={this.state.repeatPasswordError}
                       />
+                    <FormHelperText error={this.state.repeatPasswordError} filled={false} style={{display:this.state.repeatPasswordErrorEmptyDisplay}}>Este campo es obligatorio</FormHelperText>
+                    <FormHelperText error={this.state.repeatPasswordError} filled={false} style={{display:this.state.repeatPasswordErrorNotSameDisplay}}>Las contraseñas no son iguales</FormHelperText>
                     </FormControl>
                     <Button
                       fullWidth
                       variant="contained"
                       color="primary"
-                      className={classes.submit}
+                      className={this.state.buttonClass}
                       onClick= {this.handleSubmit}
+                      disabled={this.state.buttonProgress}
                     >
-                      Modificar Contraseña
+                      {this.state.buttonText}
+                      {this.state.buttonProgress && <CircularProgress size={24} className={classes.buttonProgress} />}
                     </Button>
+                    
                   </form>
                 </Paper>
               </main>
